@@ -1,0 +1,176 @@
+name: トラブルシューティングの検証
+on:
+  issues:
+    types: [opened, edited]
+
+# 権限設定を追加
+permissions:
+  issues: write
+    
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Issueの内容を検証
+        env:
+          ISSUE_BODY: "${{ github.event.issue.body }}"
+          ISSUE_TITLE: "${{ github.event.issue.title }}"
+          ISSUE_LABELS: "${{ toJson(github.event.issue.labels) }}"
+        run: |
+          # ラベルにtroubleshootingがある場合のみ処理を続行
+          if [[ "$ISSUE_LABELS" == *"troubleshooting"* ]]; then
+            # テンプレートの使用確認（最低限のマーカーで判定）
+            if [[ "$ISSUE_BODY" != *"### 問題の分類"* ]] || [[ "$ISSUE_BODY" != *"### トラブルシュート"* ]]; then
+              gh issue comment ${{ github.event.issue.number }} --body "トラブルシューティングIssueテンプレートを使用してください。このIssueは自動的にクローズされます。"
+              gh issue close ${{ github.event.issue.number }} -r "not planned"
+              exit 0
+            fi
+            
+            # 必須セクションの確認
+            if [[ "$ISSUE_BODY" != *"### 問題の詳細説明"* ]] || \
+               [[ "$ISSUE_BODY" != *"### トラブルシュートの詳細説明"* ]] || \
+               [[ "$ISSUE_BODY" != *"### 環境情報"* ]]; then
+              gh issue comment ${{ github.event.issue.number }} --body "テンプレートの必須セクション（問題の詳細説明、トラブルシュートの詳細説明、環境情報）が削除されています。正しいテンプレートを使用してIssueを再作成してください。"
+              gh issue close ${{ github.event.issue.number }} -r "not planned"
+              exit 0
+            fi
+            
+            # 環境情報の入力確認
+            if [[ "$ISSUE_BODY" == *"- ファームウェアバージョン:"$'\n' ]] && \
+               [[ "$ISSUE_BODY" == *"- 接続方法（USB/Bluetooth/その他）:"$'\n' ]] && \
+               [[ "$ISSUE_BODY" == *"- 接続しているデバイス（PC/Mac/その他）:"$'\n' ]] && \
+               [[ "$ISSUE_BODY" == *"- OSとバージョン: "$'\n' ]]; then
+              gh issue comment ${{ github.event.issue.number }} --body "環境情報が入力されていません。接続方法やOS情報は問題解決に重要です。環境情報を追記の上、Issueを再度開いてください。"
+              gh issue close ${{ github.event.issue.number }} -r "not planned"
+              exit 0
+            fi
+            
+            # 必須チェック項目の確認
+            if [[ "$ISSUE_BODY" != *"- [x] ビルドガイドの'トラブルと対策'の項目を熟読した"* ]]; then
+              gh issue comment ${{ github.event.issue.number }} --body "ビルドガイドの'トラブルと対策'の項目を熟読したしてからIssueを再度開いてください。"
+              gh issue close ${{ github.event.issue.number }} -r "not planned"
+              exit 0
+            fi
+
+            # キット内容の問題のチェックと対応するトラブルシュート
+            if [[ "$ISSUE_BODY" == *"- [x] 部品が不足している"* || \
+               "$ISSUE_BODY" == *"- [x] 部品が破損している"* || \
+               "$ISSUE_BODY" == *"- [x] はんだ済みの部品に問題がある"* || \
+               "$ISSUE_BODY" == *"- [x] 組み立てに失敗したため、部品を追加購入したい"* || \
+               "$ISSUE_BODY" == *"- [x] その他のキット内容の問題"* ]]; then
+              gh issue comment ${{ github.event.issue.number }} --body "キット内容の問題はBOOTHで連絡してください。"
+              gh issue close ${{ github.event.issue.number }} -r "not planned"
+              exit 0
+            fi
+
+            # ファームウェア書き込みの問題のチェックと対応するトラブルシュート
+            if [[ "$ISSUE_BODY" == *"- [x] ファームウェアが書き込めない"* || \
+               "$ISSUE_BODY" == *"- [x] その他のファームウェア書き込みの問題"* ]]; then
+              if [[ "$ISSUE_BODY" != *"- [x] ZMKのドキュメント、FAQを確認した"* || \
+                 "$ISSUE_BODY" != *"- [x] BMPのブートローダーが起動しているかどうか、ストレージのなかのINFO_UF2.TXTを確認してからファームウェアを書き込んだ"* ]]; then
+                gh issue comment ${{ github.event.issue.number }} --body "ファームウェア書き込みの問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
+                gh issue close ${{ github.event.issue.number }} -r "not planned"
+                exit 0
+              fi
+            fi
+
+            # キーボードの電源の問題のチェックと対応するトラブルシュート
+            if [[ "$ISSUE_BODY" == *"- [x] LEDが点灯しない"* || \
+               "$ISSUE_BODY" == *"- [x] LEDは点灯するがペアリングしない"* || \
+               "$ISSUE_BODY" == *"- [x] その他の電源の問題"* ]]; then
+              if [[ "$ISSUE_BODY" != *"- [x] 電源ONの状態で、電池ボックスの-側とBMPの0番ピン(ランドが四角いピンの1個上)の電圧が1V以上になっている"* || \
+                 "$ISSUE_BODY" != *"- [x] 電池ボックスとスイッチのはんだ付けを再確認した"* ]]; then
+                gh issue comment ${{ github.event.issue.number }} --body "キーボードの電源の問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
+                gh issue close ${{ github.event.issue.number }} -r "not planned"
+                exit 0
+              fi
+            fi
+
+            # キー入力の問題のチェックと対応するトラブルシュート
+            if [[ "$ISSUE_BODY" == *"- [x] 特定のキーが反応しない"* || \
+               "$ISSUE_BODY" == *"- [x] キーの反応が遅い"* || \
+               "$ISSUE_BODY" == *"- [x] その他のキー入力の問題"* ]]; then
+              if [[ "$ISSUE_BODY" != *"- [x] ZMKのドキュメント、FAQを確認した"* || \
+                 "$ISSUE_BODY" != *"- [x] central側にキーマップが設定されていることをzmk-studioで確認した"* || \
+                 "$ISSUE_BODY" != *"- [x] キースイッチの足が折れ曲がっていないか確認した"* || \
+                 "$ISSUE_BODY" != *"- [x] コンスルーの足が折れ曲がっていないか確認した"* || \
+                 "$ISSUE_BODY" != *"- [x] BMPを取り付け直した"* || \
+                 "$ISSUE_BODY" != *"- [x] BMPを左右で入れ替えて、メインの基板とBMPのどちらに問題があるか絞りこんだ"* ]]; then
+                gh issue comment ${{ github.event.issue.number }} --body "キー入力の問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
+                gh issue close ${{ github.event.issue.number }} -r "not planned"
+                exit 0
+              fi
+            fi
+
+            # トラックボールの問題のチェックと対応するトラブルシュート
+            if [[ "$ISSUE_BODY" == *"- [x] トラックボールがまったく反応しない"* || \
+               "$ISSUE_BODY" == *"- [x] トラックボールの動きがスムーズでない"* || \
+               "$ISSUE_BODY" == *"- [x] カーソルの動きが不規則"* || \
+               "$ISSUE_BODY" == *"- [x] その他のトラックボールの問題"* ]]; then
+              if [[ "$ISSUE_BODY" != *"- [x] ケーブルの接続を再確認した"* || \
+                 "$ISSUE_BODY" != *"- [x] センサーの取付位置を調整してみた"* || \
+                 "$ISSUE_BODY" != *"- [x] 組立中、ケースに取り付ける前にセンサーの動作確認を実施した"* || \
+                 "$ISSUE_BODY" != *"- [x] トラックボールモジュールの仕様(最大速度24inch/s、最大加速度10G)について理解した"* ]]; then
+                gh issue comment ${{ github.event.issue.number }} --body "トラックボールの問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
+                gh issue close ${{ github.event.issue.number }} -r "not planned"
+                exit 0
+              fi
+            fi
+
+            # ペアリングの問題のチェックと対応するトラブルシュート
+            if [[ "$ISSUE_BODY" == *"- [x] 両手とも無線で入力できない"* || \
+               "$ISSUE_BODY" == *"- [x] 片手（peripheral側が無線で入力できない）"* || \
+               "$ISSUE_BODY" == *"- [x] その他のペアリングの問題"* ]]; then
+              if [[ "$ISSUE_BODY" != *"- [x] ZMKのFAQを確認し、関連するトラブルシュートを実施した(実施した内容を詳細説明に記載してください)"* ]]; then
+                gh issue comment ${{ github.event.issue.number }} --body "ペアリングの問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
+                gh issue close ${{ github.event.issue.number }} -r "not planned"
+                exit 0
+              fi
+            fi
+
+            # 無線接続中の入力の問題のチェックと対応するトラブルシュート
+            if [[ "$ISSUE_BODY" == *"- [x] ペアリングができない"* || \
+               "$ISSUE_BODY" == *"- [x] 接続が頻繁に切れる、接続の遅延が大きい"* || \
+               "$ISSUE_BODY" == *"- [x] その他の無線接続中の入力の問題"* ]]; then
+              if [[ "$ISSUE_BODY" != *"- [x] ZMKのFAQを確認し、関連するトラブルシュートを実施した(実施した内容を詳細説明に記載してください)"* || \
+                 "$ISSUE_BODY" != *"- [x] ほかのデバイスに接続して動作確認した"* ]]; then
+                gh issue comment ${{ github.event.issue.number }} --body "無線接続中の入力の問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
+                gh issue close ${{ github.event.issue.number }} -r "not planned"
+                exit 0
+              fi
+            fi
+
+            # 問題の詳細説明が単なるプレースホルダーではないことを確認
+            ISSUE_DETAIL_SECTION=$(echo "$ISSUE_BODY" | awk '/### 問題の詳細説明/{flag=1; next} /###/{flag=0} flag')
+            TROUBLESHOOT_DETAIL_SECTION=$(echo "$ISSUE_BODY" | awk '/### トラブルシュートの詳細説明/{flag=1; next} /###/{flag=0} flag')
+            
+            # 余分な空白と説明プレースホルダーテキストを削除して実際のコンテンツがあるか確認
+            ISSUE_DETAIL_CONTENT=$(echo "$ISSUE_DETAIL_SECTION" | sed 's/<!--.*-->//g' | tr -d '[:space:]')
+            TROUBLESHOOT_DETAIL_CONTENT=$(echo "$TROUBLESHOOT_DETAIL_SECTION" | sed 's/<!--.*-->//g' | tr -d '[:space:]')
+            
+            if [[ -z "$ISSUE_DETAIL_CONTENT" ]] || [[ -z "$TROUBLESHOOT_DETAIL_CONTENT" ]]; then
+              gh issue comment ${{ github.event.issue.number }} --body "問題の詳細説明またはトラブルシュートの詳細説明が記入されていません。詳細な情報は問題解決に重要です。"
+              gh issue close ${{ github.event.issue.number }} -r "not planned"
+              exit 0
+            fi
+            
+            echo "問題の分類とトラブルシュートの項目が正しくチェックされています。"
+          else
+            # トラブルシューティングが必要なタイトルやキーワードを含むIssueを検出
+            if [[ "$ISSUE_TITLE" == *"[トラブルシューティング]"* ]] || \
+               [[ "$ISSUE_TITLE" == *"問題"* ]] || \
+               [[ "$ISSUE_TITLE" == *"不具合"* ]] || \
+               [[ "$ISSUE_TITLE" == *"動かない"* ]] || \
+               [[ "$ISSUE_BODY" == *"問題"* ]] || \
+               [[ "$ISSUE_BODY" == *"動かない"* ]] || \
+               [[ "$ISSUE_BODY" == *"不具合"* ]] || \
+               [[ "$ISSUE_BODY" == *"反応しない"* ]]; then
+              gh issue comment ${{ github.event.issue.number }} --body "トラブルシューティングに関するIssueは、トラブルシューティングテンプレートを使用してください。このIssueは自動的にクローズされます。"
+              gh issue close ${{ github.event.issue.number }} -r "not planned"
+              exit 0
+            fi
+          fi
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

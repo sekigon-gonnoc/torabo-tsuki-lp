@@ -1,0 +1,4 @@
+*.FCStd1
+*.step
+*-backups
+img/raw

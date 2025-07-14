@@ -1,0 +1,8 @@
+{
+  "name": "torabo-tsuki-lp-docs",
+  "version": "1.0.0",
+  "description": "Documentation for torabo-tsuki keyboard",
+  "scripts": {
+    "generate-templates": "node scripts/generate_troubleshoot_templates.js"
+  }
+}
