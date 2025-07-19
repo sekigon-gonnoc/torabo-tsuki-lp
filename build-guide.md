@@ -176,7 +176,7 @@ JLC3DPによるレビュー中にメールで問い合わせが来る場合が�
 |![](img/battery-cover-1.JPG)|![](img/battery-cover-2.JPG)|![](img/battery-cover-3.JPG)|
 |-|-|-|
 
-* 仮にボトムプレートを外した場合、下の図で赤く示した4箇所で固定されているイメージです
+* ボトムプレートを外した場合、下の図で赤く示した4箇所で固定されています
 
 ![](img/battery-cover-4.JPG)
 
