@@ -5,6 +5,8 @@ torabo-tsuki LP（トラボ付きLP）はトラックボール付きの無線分
 トラックボール(25 or 19mm)の高さを低く抑えることで、キーを打つときや持ち運びの邪魔になりにくくなっています。
 無線接続に適したハードウェア・ソフトウェア構成により低消費電力を実現しており、連続して数か月間使用可能です。バッテリーは乾電池なので、残量や安全性を気にしながら定期的に充電する必要がありません。
 
+[BOOTH](https://nogikes.booth.pm/items/7200248)にて販売中です。
+
 **MX版の情報は[こちら](https://github.com/sekigon-gonnoc/torabo-tsuki)**
 
 |![](img/torabo-tsuki-lp-s-25.JPG)|![](img/torabo-tsuki-lp-s-25-side.JPG)|
