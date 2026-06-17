@@ -1,0 +1,107 @@
+(footprint "MX_MountHole_14.2x14"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "SW9"
+		(at 0.025 -7.151 180)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "0461f093-30c4-4e7d-b92a-8acf4ac2c82f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "SW_Push"
+		(at 0 -6.2 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "87c85d98-f71e-4034-b722-43f136c04b71")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8e04c13d-59ef-464c-883e-fcb29173670d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e6b848a3-391e-40bc-bb75-8d6bbfd98805")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole exclude_from_pos_files exclude_from_bom)
+	(fp_rect
+		(start -8.5 -8.5)
+		(end 8.5 8.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "Dwgs.User")
+		(uuid "288cbb16-58c3-4e22-b3a3-6c9b326663f5")
+	)
+	(fp_line
+		(start -7.1 -7)
+		(end 7.1 -7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "Edge.Cuts")
+		(uuid "5a45be04-043f-4e80-9c13-76b3712b3780")
+	)
+	(fp_line
+		(start -7.1 7)
+		(end -7.1 -7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "Edge.Cuts")
+		(uuid "377caccc-534a-4b86-88c1-ff47855e7201")
+	)
+	(fp_line
+		(start 7.1 -7)
+		(end 7.1 7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "Edge.Cuts")
+		(uuid "58fde4c2-d500-4ce0-850d-660b48757110")
+	)
+	(fp_line
+		(start 7.1 7)
+		(end -7.1 7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "Edge.Cuts")
+		(uuid "a5cb732a-869b-4b81-ba33-b3a086c00e4c")
+	)
+	(embedded_fonts no)
+)
