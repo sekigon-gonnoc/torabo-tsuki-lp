@@ -28,7 +28,7 @@
 			(justify right)
 		)
 	)
-	(property "Footprint" "MyLib:GT-F0501SR10-06S1101"
+	(property "Footprint" "Library:GT-F0501SR10-06S1101"
 		(at 1 0 0)
 		(layer "F.Fab")
 		(hide yes)

@@ -1,0 +1,89 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "d470e7a4-966e-4b7e-b716-aac18e0b3811")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 162.56 40.64)
+		(size 100.33 103.505)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7368bfa4-9957-402b-978e-3e10016f763f")
+		(property "Sheetname" "right"
+			(at 162.56 39.9284 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "right.kicad_sch"
+			(at 162.56 144.7296 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "torabo-tsuki-lp-S"
+				(path "/d470e7a4-966e-4b7e-b716-aac18e0b3811"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 38.1 40.64)
+		(size 91.44 103.505)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "875ad885-ab17-45c9-9ede-ac02233b55af")
+		(property "Sheetname" "left"
+			(at 38.1 39.9284 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "left.kicad_sch"
+			(at 38.1 144.7296 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "torabo-tsuki-lp-S"
+				(path "/d470e7a4-966e-4b7e-b716-aac18e0b3811"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)

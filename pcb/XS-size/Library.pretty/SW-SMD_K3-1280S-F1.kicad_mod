@@ -28,7 +28,7 @@
 			(justify right)
 		)
 	)
-	(property "Footprint" "MyLib:SW-SMD_K3-1280S-F1"
+	(property "Footprint" "Library:SW-SMD_K3-1280S-F1"
 		(at 0 0 360)
 		(layer "F.Fab")
 		(hide yes)
