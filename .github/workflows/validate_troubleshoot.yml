@@ -69,7 +69,8 @@ jobs:
             if [[ "$ISSUE_BODY" == *"- [x] ファームウェアが書き込めない"* || \
                "$ISSUE_BODY" == *"- [x] その他のファームウェア書き込みの問題"* ]]; then
               if [[ "$ISSUE_BODY" != *"- [x] ZMKのドキュメント、FAQを確認した"* || \
-                 "$ISSUE_BODY" != *"- [x] BMPのブートローダーが起動しているかどうか、ストレージのなかのINFO_UF2.TXTを確認してからファームウェアを書き込んだ"* ]]; then
+                 "$ISSUE_BODY" != *"- [x] BMPのブートローダーが起動しているかどうか、ストレージのなかのINFO_UF2.TXTを確認してからファームウェアを書き込んだ"* || \
+                 "$ISSUE_BODY" != *"- [x] UF2書き込み後、一度ケーブルを外し、電源スイッチをONにしてから再度ケーブルを接続した"* ]]; then
                 gh issue comment ${{ github.event.issue.number }} --body "ファームウェア書き込みの問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
                 gh issue close ${{ github.event.issue.number }} -r "not planned"
                 exit 0
@@ -114,7 +115,9 @@ jobs:
               if [[ "$ISSUE_BODY" != *"- [x] ケーブルの接続を再確認した"* || \
                  "$ISSUE_BODY" != *"- [x] センサーの取付位置を調整してみた"* || \
                  "$ISSUE_BODY" != *"- [x] 組立中、ケースに取り付ける前にセンサーの動作確認を実施した"* || \
-                 "$ISSUE_BODY" != *"- [x] トラックボールモジュールの仕様(最大速度24inch/s、最大加速度10G)について理解した"* ]]; then
+                 "$ISSUE_BODY" != *"- [x] トラックボールモジュールの仕様(最大速度24inch/s、最大加速度10G)について理解した"* || \
+                 "$ISSUE_BODY" != *"- [x] コンスルーの足が折れ曲がっていないか確認した"* || \
+                 "$ISSUE_BODY" != *"- [x] BMPを取り付け直した"* ]]; then
                 gh issue comment ${{ github.event.issue.number }} --body "トラックボールの問題に関するトラブルシュートがすべて実施されていません。対応するトラブルシュートの項目をすべてチェックしてから再度Issueを開いてください。"
                 gh issue close ${{ github.event.issue.number }} -r "not planned"
                 exit 0
