@@ -298,6 +298,7 @@ S,M,Lではパーツ配置の都合で斜め方向に足を曲げ、XSでは真�
 * Keymap-Editorを使用する場合は[zmk-keyboard-torabo-tsuki-lp](https://github.com/sekigon-gonnoc/zmk-keyboard-torabo-tsuki-lp)をクローンして編集してください。
   * Keymap-Editorの仕様によりconfig/info.jsonはLサイズ用になっているため、S,Mサイズには存在しないキーも表示されます。
   * [ファームウェアの書き込み方](#ファームウェアを書きこむ)を参考にして、新しく作ったuf2ファイルを書き込んでください。
+* [nemu-link](https://github.com/sekigon-gonnoc/nemu-link)ドングルを使用する場合、nemu-linkブランチのファームウェアを使用してください。
 
 ## トラブルと対策
 
