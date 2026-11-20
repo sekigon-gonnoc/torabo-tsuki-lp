@@ -199,7 +199,7 @@ S,M,Lではパーツ配置の都合で斜め方向に足を曲げ、XSでは真�
 ### トラックボールセンサーにケーブルを差し込む
 
 * コネクタのフラップ（黒い部分）を上に持ち上げ、トラックボールのケーブルをしっかり奥まで差し込み、フラップを下げます。
-  * 無理な力をかけると破損します。[コネクタの操作方法と注意点をよく確認してください](https://www.hirose.com/ja/product/document?clcode=&productname=&series=FH19C__FH19SC&documenttype=Catalog&lang=ja&documentid=D31611_ja)
+  * 無理な力をかけると破損します。[コネクタの操作方法と注意点をよく確認してください](https://www.hirose.com/ja/product/series/FH19C__FH19SC/documents?path=%2Fapi%2Fv1%2Fseries%2FFH19C__FH19SC%2Fdocuments%2Fproduct_series_catalog%2Fcontent%3Flang%3DJA)
 
 ![](img/mouse-sensor.JPG)
 
